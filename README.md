@@ -62,6 +62,15 @@ const input = input();
 log(input);
 ```
 
+## Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+- All code comments and documentation **must be written in English**.
+- Follow the existing code style and structure.
+- Make sure your code builds and passes all tests before submitting a pull request.
+- Describe your changes clearly in the pull request.
+
 ## License
 
 MIT License
