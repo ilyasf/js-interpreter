@@ -42,6 +42,7 @@ void printToken(const Token& token) {
 }
 
 int main(int argc, char* argv[]) {
+    std::cout << "=== SIMPLE JS INTERPRETER ===" << std::endl;
     if (argc != 2) {
         std::cerr << "Usage: " << argv[0] << " <filename>" << std::endl;
         return 1;
