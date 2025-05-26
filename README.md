@@ -1,5 +1,7 @@
 # Simple JavaScript Interpreter
 
+[![C/C++ CI](https://github.com/ilyasf/js-interpreter/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/ilyasf/js-interpreter/actions/workflows/c-cpp.yml)
+
 A simple JavaScript interpreter created for educational purposes. The project implements a basic parser and interpreter for a subset of JavaScript.
 
 ## Features
