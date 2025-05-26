@@ -85,7 +85,7 @@ Token Lexer::readIdentifier() {
     }
 
     std::string text = source_.substr(start, position_ - start);
-    TokenType type;
+    TokenType type;   
 
     if (text == "const") {
         type = TokenType::CONST;

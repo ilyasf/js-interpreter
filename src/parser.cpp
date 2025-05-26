@@ -47,12 +47,16 @@ Parser::Parser(Lexer& lexer) : lexer_(lexer) {
 
 std::vector<std::shared_ptr<Expression>> Parser::parse() {
     std::vector<std::shared_ptr<Expression>> expressions;
+    printToken(current_);
     
     while (!check(TokenType::EOF_TOKEN)) {
-        auto parsedExpr = parseExpression();
-        expressions.push_back(parsedExpr);
-        std::cout << "Parsed expression: " << parsedExpr->toString() << std::endl;
-        consume(TokenType::SEMICOLON, "Expected ';' after expression.");
+        if (check(TokenType::SEMICOLON)) {
+            advance(); // skip semicolon
+            continue;
+        }
+        
+        expressions.push_back(parseExpression());
+        // consume(TokenType::SEMICOLON, "Expected ';' after expression");
     }
     
     return expressions;
@@ -90,7 +94,7 @@ std::shared_ptr<Expression> Parser::parsePrimary() {
     if (match(TokenType::INPUT)) {
         return std::make_shared<CallExpression>("input", std::vector<std::shared_ptr<Expression>>());
     }
-    
+    printToken(previous_);
     throw std::runtime_error("Unexpected token in expression");
 }
 
@@ -135,4 +139,29 @@ Token Parser::consume(TokenType type, const std::string& message) {
         return token;
     }
     throw std::runtime_error(message);
+}
+
+void Parser::printToken(const Token& token) const {
+    std::cout << "Token: ";
+    switch (token.type) {
+        case TokenType::CONST: std::cout << "CONST"; break;
+        case TokenType::IDENTIFIER: std::cout << "IDENTIFIER"; break;
+        case TokenType::EQUALS: std::cout << "EQUALS"; break;
+        case TokenType::NUMBER: std::cout << "NUMBER"; break;
+        case TokenType::SEMICOLON: std::cout << "SEMICOLON"; break;
+        case TokenType::DOT: std::cout << "DOT"; break;
+        case TokenType::LOG: std::cout << "LOG"; break;
+        case TokenType::INPUT: std::cout << "INPUT"; break;
+        case TokenType::LPAREN: std::cout << "LPAREN"; break;
+        case TokenType::RPAREN: std::cout << "RPAREN"; break;
+        case TokenType::COMMA: std::cout << "COMMA"; break;
+        case TokenType::EOF_TOKEN: std::cout << "EOF"; break;
+    }
+    std::cout << ", value: ";
+    if (std::holds_alternative<std::string>(token.value)) {
+        std::cout << std::get<std::string>(token.value);
+    } else if (std::holds_alternative<double>(token.value)) {
+        std::cout << std::get<double>(token.value);
+    }
+    std::cout << ", line: " << token.line << ", col: " << token.column << std::endl;
 }

@@ -9,6 +9,7 @@ void Interpreter::interpret(const std::vector<std::shared_ptr<Expression>>& expr
 }
 
 double Interpreter::evaluate(const std::shared_ptr<Expression>& expr) {
+    std::cout << "Evaluating expression: " << expr->toString() << std::endl;
     if (auto number = std::dynamic_pointer_cast<NumberLiteral>(expr)) {
         return evaluateNumber(number);
     }
@@ -18,6 +19,9 @@ double Interpreter::evaluate(const std::shared_ptr<Expression>& expr) {
     if (auto call = std::dynamic_pointer_cast<CallExpression>(expr)) {
         return evaluateCall(call);
     }
+    // if (auto varDecl = std::dynamic_pointer_cast<VariableDeclaration>(expr)) {
+    //     return evaluateVariableDeclaration(varDecl);
+    // }
     throw std::runtime_error("Unknown expression type");
 }
 
@@ -33,6 +37,12 @@ double Interpreter::evaluateIdentifier(const std::shared_ptr<Identifier>& expr) 
     }
     return it->second;
 }
+
+// double Interpreter::evaluateVariableDeclaration(const std::shared_ptr<VariableDeclaration>& expr) {
+//     double value = evaluate(expr->initializer_);
+//     variables_[expr->name_] = value;
+//     return value;
+// }
 
 double Interpreter::evaluateCall(const std::shared_ptr<CallExpression>& expr) {
     const std::string& callee = expr->callee_;

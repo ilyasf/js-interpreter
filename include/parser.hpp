@@ -66,6 +66,7 @@ private:
     bool check(TokenType type) const;
     bool match(TokenType type);
     Token consume(TokenType type, const std::string& message);
+    void printToken(const Token& token) const;
 };
 
 #endif // PARSER_HPP 
